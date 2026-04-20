@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useMemo, useCallback } from "react";
 import type { TopLista } from "./types";
 import TopCardGrid from "./components/TopCardGrid";
 import EmptyState from "./components/EmptyState";
+import { useLocalStorage } from "./hooks/useLocalStorage";
 
 const LISTAS_PRUEBA: TopLista[] = [
   {
@@ -18,21 +19,24 @@ const LISTAS_PRUEBA: TopLista[] = [
   },
 ];
 
-
 export default function App() {
-  const [listas, setListas] = useState<TopLista[]>(LISTAS_PRUEBA);
+  const [listas, setListas] = useLocalStorage<TopLista[]>("listas", LISTAS_PRUEBA);
 
-  const handleEliminar = (id: string) => {
-    setListas(listas.filter((l) => l.id !== id));
-  };
+  const totalPosiciones = useMemo(() => {
+    return listas.reduce((acc, lista) => acc + lista.posiciones.length, 0);
+  }, [listas]);
 
-  const handleEditar = (lista: TopLista) => {
+  const handleEliminar = useCallback((id: string) => {
+    setListas((prev) => prev.filter((l) => l.id !== id));
+  }, [setListas]);
+
+  const handleEditar = useCallback((lista: TopLista) => {
     console.log("Editar:", lista);
-  };
+  }, []);
 
-  const handleCopiar = (lista: TopLista) => {
+  const handleCopiar = useCallback((lista: TopLista) => {
     console.log("Copiar:", lista);
-  };
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-6">
@@ -46,12 +50,14 @@ export default function App() {
             <p className="text-sm text-gray-500 dark:text-gray-400">
               Crea tus rankings personales
             </p>
+            <p className="text-xs text-gray-400 dark:text-gray-500">
+              {listas.length} listas · {totalPosiciones} posiciones
+            </p>
           </div>
           <button className="px-4 py-2 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold hover:opacity-90 transition-opacity cursor-pointer">
             + Nuevo Top 5
           </button>
         </header>
-
 
         {listas.length === 0 ? (
           <EmptyState onCrear={() => console.log("Crear lista")} />
