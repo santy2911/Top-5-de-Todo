@@ -3,6 +3,7 @@ import type { TopLista } from "../types";
 
 export interface ListasContextType {
   listas: TopLista[];
+  handleCrear: (lista: TopLista) => void;
   handleEliminar: (id: string) => void;
   handleEditar: (lista: TopLista) => void;
   handleCopiar: (lista: TopLista) => void;

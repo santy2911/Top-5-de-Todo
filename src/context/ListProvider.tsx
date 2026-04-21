@@ -21,24 +21,30 @@ const LISTAS_PRUEBA: TopLista[] = [
 export function ListProvider({ children }: { children: ReactNode }) {
   const [listas, setListas] = useLocalStorage<TopLista[]>("listas", LISTAS_PRUEBA);
 
+  const handleCrear = useCallback((lista: TopLista) => {
+    setListas((prev) => [lista, ...prev]);
+  }, [setListas]);
+
   const handleEliminar = useCallback((id: string) => {
     setListas((prev) => prev.filter((l) => l.id !== id));
   }, [setListas]);
 
   const handleEditar = useCallback((lista: TopLista) => {
-    console.log("Editar:", lista);
-  }, []);
+    setListas((prev) => prev.map((l) => l.id === lista.id ? lista : l));
+  }, [setListas]);
 
   const handleCopiar = useCallback((lista: TopLista) => {
-    console.log("Copiar:", lista);
+    const texto = `${lista.titulo}\n${lista.posiciones.map((p, i) => `${i + 1}. ${p.texto}`).join("\n")}\n\nCreado con Top 5 de Todo`;
+    navigator.clipboard.writeText(texto);
   }, []);
 
   const valor = useMemo(() => ({
     listas,
+    handleCrear,
     handleEliminar,
     handleEditar,
     handleCopiar,
-  }), [listas, handleEliminar, handleEditar, handleCopiar]);
+  }), [listas, handleCrear, handleEliminar, handleEditar, handleCopiar]);
 
   return (
     <ListasContext.Provider value={valor}>
