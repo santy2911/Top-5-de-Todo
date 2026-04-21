@@ -3,9 +3,11 @@ import type { TopLista } from "../types";
 
 export interface ListasContextType {
   listas: TopLista[];
-  handleCrear: (lista: TopLista) => void;
-  handleEliminar: (id: string) => void;
-  handleEditar: (lista: TopLista) => void;
+  loading: boolean;
+  error: string | null;
+  handleCrear: (lista: TopLista) => Promise<void>;
+  handleEliminar: (id: string) => Promise<void>;
+  handleEditar: (lista: TopLista) => Promise<void>;
   handleCopiar: (lista: TopLista) => void;
 }
 

@@ -7,7 +7,7 @@ import { useListasContext } from "../context/ListContext";
 import type { TopLista } from "../types";
 
 export default function Home() {
-  const { listas, handleCrear, handleEliminar, handleEditar, handleCopiar } = useListasContext();
+  const { listas, loading, error, handleCrear, handleEliminar, handleEditar, handleCopiar } = useListasContext();
   const [modalAbierto, setModalAbierto] = useState(false);
   const [listaEditar, setListaEditar] = useState<TopLista | undefined>(undefined);
   const [toast, setToast] = useState("");
@@ -64,9 +64,11 @@ export default function Home() {
             <p className="text-sm text-gray-500 dark:text-gray-400">
               Crea tus rankings personales
             </p>
-            <p className="text-xs text-gray-400 dark:text-gray-500">
-              {listas.length} listas
-            </p>
+            {!loading && !error && (
+              <p className="text-xs text-gray-400 dark:text-gray-500">
+                {listas.length} listas
+              </p>
+            )}
           </div>
           <button
             onClick={abrirModalCrear}
@@ -76,15 +78,29 @@ export default function Home() {
           </button>
         </header>
 
-        {listas.length === 0 ? (
-          <EmptyState onCrear={abrirModalCrear} />
-        ) : (
-          <TopCardGrid
-            listas={listas}
-            onEliminar={eliminarLista}
-            onEditar={abrirModalEditar}
-            onCopiar={copiarLista}
-          />
+        {loading && (
+          <p className="text-center text-gray-400 dark:text-gray-500 py-12">
+            Cargando listas...
+          </p>
+        )}
+
+        {error && (
+          <p className="text-center text-red-500 py-12">
+            Error al cargar las listas: {error}
+          </p>
+        )}
+
+        {!loading && !error && (
+          listas.length === 0 ? (
+            <EmptyState onCrear={abrirModalCrear} />
+          ) : (
+            <TopCardGrid
+              listas={listas}
+              onEliminar={eliminarLista}
+              onEditar={abrirModalEditar}
+              onCopiar={copiarLista}
+            />
+          )
         )}
       </div>
 
