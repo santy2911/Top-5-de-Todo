@@ -17,7 +17,7 @@ export default function TopCard({ lista, onEliminar, onEditar, onCopiar }: TopCa
   };
 
   return (
-    <div className="group relative flex flex-col gap-3 p-5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-sm hover:shadow-md transition-shadow">
+    <div className="group relative flex flex-col gap-3 p-5 rounded-xl border border-gray-200 dark:border-[#2a3555] bg-white dark:bg-[#1a2235] shadow-sm hover:shadow-md transition-shadow">
       <h3 className="text-lg font-bold text-gray-800 dark:text-white">
         {lista.titulo}
       </h3>
@@ -57,19 +57,19 @@ export default function TopCard({ lista, onEliminar, onEditar, onCopiar }: TopCa
       <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity mt-2">
         <button
           onClick={() => onEditar(lista)}
-          className="text-xs px-3 py-1 rounded-lg bg-indigo-100 text-indigo-700 hover:bg-indigo-200 transition-colors cursor-pointer"
+          className="text-xs px-3 py-1 rounded-lg bg-indigo-100 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-200 dark:hover:bg-indigo-900/60 transition-colors cursor-pointer"
         >
           Editar
         </button>
         <button
           onClick={() => onCopiar(lista)}
-          className="text-xs px-3 py-1 rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors cursor-pointer"
+          className="text-xs px-3 py-1 rounded-lg bg-gray-100 dark:bg-[#2a3555] text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-[#334066] transition-colors cursor-pointer"
         >
           Copiar
         </button>
         <button
           onClick={() => onEliminar(lista.id)}
-          className="text-xs px-3 py-1 rounded-lg bg-red-100 text-red-700 hover:bg-red-200 transition-colors cursor-pointer"
+          className="text-xs px-3 py-1 rounded-lg bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 hover:bg-red-200 dark:hover:bg-red-900/50 transition-colors cursor-pointer"
         >
           Eliminar
         </button>

@@ -76,13 +76,13 @@ export default function TopModal({ listaEditar, onGuardar, onCerrar }: TopModalP
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-xl w-full max-w-lg mx-4 max-h-[90vh] overflow-y-auto">
+      <div className="bg-white dark:bg-[#1a2235] rounded-xl shadow-xl w-full max-w-lg mx-4 max-h-[90vh] overflow-y-auto">
 
-        <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
+        <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-[#2a3555]">
           <h2 className="text-xl font-bold text-gray-800 dark:text-white">
             {listaEditar ? "Editar Top 5" : "Crear Top 5"}
           </h2>
-          <button onClick={onCerrar} className="text-gray-400 hover:text-gray-600 cursor-pointer">
+          <button onClick={onCerrar} className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 cursor-pointer">
             ✕
           </button>
         </div>
@@ -97,7 +97,7 @@ export default function TopModal({ listaEditar, onGuardar, onCerrar }: TopModalP
               onChange={(e) => setTitulo(e.target.value)}
               maxLength={50}
               placeholder="Ej: Mis películas favoritas"
-              className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-[#2a3555] bg-white dark:bg-[#0f1629] text-gray-800 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
           </div>
 
@@ -106,7 +106,7 @@ export default function TopModal({ listaEditar, onGuardar, onCerrar }: TopModalP
               <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
                 Top 5 — Arrastra para reordenar
               </span>
-              <span className="text-xs text-gray-500">{completadas}/5 completadas</span>
+              <span className="text-xs text-gray-500 dark:text-gray-400">{completadas}/5 completadas</span>
             </div>
 
             {posiciones.map((posicion, index) => (
@@ -116,7 +116,7 @@ export default function TopModal({ listaEditar, onGuardar, onCerrar }: TopModalP
                 onDragStart={() => handleDragStart(index)}
                 onDragOver={(e) => handleDragOver(e, index)}
                 onDrop={handleDrop}
-                className={`flex gap-2 items-start p-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700/50 ${dragIndex === index ? "opacity-40" : ""}`}
+                className={`flex gap-2 items-start p-2 rounded-lg border border-gray-200 dark:border-[#2a3555] bg-gray-50 dark:bg-[#0f1629]/50 ${dragIndex === index ? "opacity-40" : ""}`}
               >
                 <span className="mt-2 cursor-move text-gray-400 select-none">⠿</span>
 
@@ -131,7 +131,7 @@ export default function TopModal({ listaEditar, onGuardar, onCerrar }: TopModalP
                     onChange={(e) => actualizarTexto(index, e.target.value)}
                     maxLength={50}
                     placeholder={`Posición ${index + 1}`}
-                    className="w-full px-3 py-1.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    className="w-full px-3 py-1.5 rounded-lg border border-gray-300 dark:border-[#2a3555] bg-white dark:bg-[#0f1629] text-gray-800 dark:text-white placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   />
                   <input
                     type="text"
@@ -139,7 +139,7 @@ export default function TopModal({ listaEditar, onGuardar, onCerrar }: TopModalP
                     onChange={(e) => actualizarDescripcion(index, e.target.value)}
                     maxLength={100}
                     placeholder="¿Por qué este puesto?"
-                    className="w-full px-3 py-1.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-500 dark:text-gray-400 placeholder-gray-400 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    className="w-full px-3 py-1.5 rounded-lg border border-gray-300 dark:border-[#2a3555] bg-white dark:bg-[#0f1629] text-gray-500 dark:text-gray-400 placeholder-gray-400 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   />
                 </div>
               </div>
@@ -151,7 +151,7 @@ export default function TopModal({ listaEditar, onGuardar, onCerrar }: TopModalP
           <div className="flex gap-3 pt-2">
             <button
               onClick={onCerrar}
-              className="flex-1 px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer"
+              className="flex-1 px-4 py-2 rounded-lg border border-gray-300 dark:border-[#2a3555] text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-[#0f1629] cursor-pointer"
             >
               Cancelar
             </button>

@@ -11,14 +11,19 @@ interface TopCardGridProps {
 export default function TopCardGrid({ listas, onEliminar, onEditar, onCopiar }: TopCardGridProps) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-      {listas.map((lista) => (
-        <TopCard
+      {listas.map((lista, index) => (
+        <div
           key={lista.id}
-          lista={lista}
-          onEliminar={onEliminar}
-          onEditar={onEditar}
-          onCopiar={onCopiar}
-        />
+          className="animate-fadeIn"
+          style={{ animationDelay: `${index * 50}ms` }}
+        >
+          <TopCard
+            lista={lista}
+            onEliminar={onEliminar}
+            onEditar={onEditar}
+            onCopiar={onCopiar}
+          />
+        </div>
       ))}
     </div>
   );

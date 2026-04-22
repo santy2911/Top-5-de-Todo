@@ -1,6 +1,6 @@
 import type { TopLista, Posicion } from "../types";
 
-const BASE_URL = "http://localhost:3001/api/v1";
+const BASE_URL = import.meta.env.VITE_API_URL ?? "http://localhost:3001/api/v1";
 
 async function request<T>(url: string, opciones?: RequestInit): Promise<T> {
   const respuesta = await fetch(`${BASE_URL}${url}`, {
