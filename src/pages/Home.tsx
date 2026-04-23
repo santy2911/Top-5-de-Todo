@@ -79,7 +79,6 @@ export default function Home() {
             <button
               onClick={() => setOscuro(p => !p)}
               className="p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#1a2235] transition-colors cursor-pointer"
-              aria-label="Cambiar tema"
             >
               {oscuro ? "☀️" : "🌙"}
             </button>
@@ -107,7 +106,7 @@ export default function Home() {
         )}
 
         {!loading && !error && listas.length > 0 && (
-          <form autoComplete="off" className="flex gap-3">
+          <div className="flex flex-col sm:flex-row gap-3">
             <input
               type="text"
               placeholder="Buscar por título..."
@@ -118,14 +117,13 @@ export default function Home() {
             <select
               value={orden}
               onChange={e => setOrden(e.target.value)}
-              name="orden-top5-app"
               className="px-3 py-2 rounded-lg border border-gray-200 dark:border-[#2a3555] bg-white dark:bg-[#1a2235] text-gray-800 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer"
             >
               <option value="reciente">Más reciente</option>
               <option value="antiguo">Más antiguo</option>
               <option value="az">A-Z</option>
             </select>
-          </form>
+          </div>
         )}
 
         {loading && (
