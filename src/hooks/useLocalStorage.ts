@@ -11,11 +11,7 @@ export function useLocalStorage<T>(key: string, valorInicial: T) {
   });
 
   useEffect(() => {
-    try {
-      localStorage.setItem(key, JSON.stringify(valor));
-    } catch {
-      console.warn("Error guardando en localStorage");
-    }
+    localStorage.setItem(key, JSON.stringify(valor));
   }, [key, valor]);
 
   return [valor, setValor] as const;

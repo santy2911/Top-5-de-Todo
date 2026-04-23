@@ -13,7 +13,7 @@ async function request<T>(url: string, opciones?: RequestInit): Promise<T> {
     throw new Error(error.error ?? `Error ${respuesta.status}`);
   }
 
-  return respuesta.json() as Promise<T>;
+  return respuesta.json();
 }
 
 export type ListaInput = {
@@ -22,11 +22,9 @@ export type ListaInput = {
 };
 
 export const listasApi = {
-  obtenerTodas: () =>
-    request<TopLista[]>("/listas"),
+  obtenerTodas: () => request<TopLista[]>("/listas"),
 
-  obtenerPorId: (id: string) =>
-    request<TopLista>(`/listas/${id}`),
+  obtenerPorId: (id: string) => request<TopLista>(`/listas/${id}`),
 
   crear: (datos: ListaInput) =>
     request<TopLista>("/listas", {
@@ -41,7 +39,5 @@ export const listasApi = {
     }),
 
   eliminar: (id: string) =>
-    request<{ mensaje: string }>(`/listas/${id}`, {
-      method: "DELETE",
-    }),
+    request<{ mensaje: string }>(`/listas/${id}`, { method: "DELETE" }),
 };

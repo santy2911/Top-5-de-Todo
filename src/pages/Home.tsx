@@ -23,12 +23,9 @@ export default function Home() {
   }, [oscuro]);
 
   const listasFiltradas = useMemo(() => {
-    let resultado = [...listas];
-    if (busqueda.trim()) {
-      resultado = resultado.filter(l =>
-        l.titulo.toLowerCase().includes(busqueda.toLowerCase())
-      );
-    }
+    let resultado = listas.filter(l =>
+      !busqueda.trim() || l.titulo.toLowerCase().includes(busqueda.toLowerCase())
+    );
     if (orden === "reciente") resultado.sort((a, b) => b.creadoEn.localeCompare(a.creadoEn));
     if (orden === "antiguo") resultado.sort((a, b) => a.creadoEn.localeCompare(b.creadoEn));
     if (orden === "az") resultado.sort((a, b) => a.titulo.localeCompare(b.titulo));
@@ -38,28 +35,18 @@ export default function Home() {
   const progreso = Math.round((listas.length / LIMITE) * 100);
   const colorBarra = progreso >= 90 ? "bg-red-500" : progreso >= 60 ? "bg-yellow-500" : "bg-gradient-to-r from-indigo-500 to-purple-600";
 
-  const mostrarToast = (mensaje: string) => {
-    setToast(mensaje);
+  const mostrarToast = (msg: string) => {
+    setToast(msg);
     setTimeout(() => setToast(""), 3000);
   };
 
-  const abrirModalCrear = () => {
-    if (listas.length >= LIMITE) {
+  const abrirModal = (lista?: TopLista) => {
+    if (!lista && listas.length >= LIMITE) {
       mostrarToast("Has alcanzado el límite de 10 listas");
       return;
     }
-    setListaEditar(undefined);
-    setModalAbierto(true);
-  };
-
-  const abrirModalEditar = (lista: TopLista) => {
     setListaEditar(lista);
     setModalAbierto(true);
-  };
-
-  const cerrarModal = () => {
-    setModalAbierto(false);
-    setListaEditar(undefined);
   };
 
   const guardarLista = (lista: TopLista) => {
@@ -70,7 +57,8 @@ export default function Home() {
       handleCrear(lista);
       mostrarToast("Lista creada ✓");
     }
-    cerrarModal();
+    setModalAbierto(false);
+    setListaEditar(undefined);
   };
 
   const copiarLista = (lista: TopLista) => {
@@ -78,16 +66,11 @@ export default function Home() {
     mostrarToast("Copiado al portapapeles ✓");
   };
 
-  const eliminarLista = (id: string) => {
-    handleEliminar(id);
-    mostrarToast("Lista eliminada");
-  };
-
   return (
     <div className="min-h-screen bg-[#f8f7ff] dark:bg-[#0f1629] p-6">
       <div className="max-w-5xl mx-auto flex flex-col gap-6">
 
-        <header className="flex items-center justify-between">
+        <header className="flex items-center justify-between pb-5 border-b border-gray-200 dark:border-[#2a3555]">
           <div>
             <h1 className="text-2xl font-bold text-gray-800 dark:text-white">Top 5 de Todo</h1>
             <p className="text-sm text-gray-500 dark:text-gray-400">Crea tus rankings personales</p>
@@ -101,8 +84,8 @@ export default function Home() {
               {oscuro ? "☀️" : "🌙"}
             </button>
             <button
-              onClick={abrirModalCrear}
-              className="px-4 py-2 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold hover:opacity-90 transition-opacity cursor-pointer"
+              onClick={() => abrirModal()}
+              className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold shadow-lg shadow-indigo-500/40 animate-latido hover:opacity-90 transition-opacity cursor-pointer"
             >
               + Nuevo Top 5
             </button>
@@ -159,12 +142,12 @@ export default function Home() {
               No hay resultados para "{busqueda}"
             </p>
           ) : listasFiltradas.length === 0 ? (
-            <EmptyState onCrear={abrirModalCrear} />
+            <EmptyState onCrear={() => abrirModal()} />
           ) : (
             <TopCardGrid
               listas={listasFiltradas}
-              onEliminar={eliminarLista}
-              onEditar={abrirModalEditar}
+              onEliminar={handleEliminar}
+              onEditar={abrirModal}
               onCopiar={copiarLista}
             />
           )
@@ -175,7 +158,7 @@ export default function Home() {
         <TopModal
           listaEditar={listaEditar}
           onGuardar={guardarLista}
-          onCerrar={cerrarModal}
+          onCerrar={() => { setModalAbierto(false); setListaEditar(undefined); }}
         />
       )}
 

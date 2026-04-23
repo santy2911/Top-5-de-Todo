@@ -10,13 +10,11 @@ interface TopModalProps {
 export default function TopModal({ listaEditar, onGuardar, onCerrar }: TopModalProps) {
   const [titulo, setTitulo] = useState(listaEditar?.titulo ?? "");
   const [posiciones, setPosiciones] = useState<Posicion[]>(
-    listaEditar?.posiciones ?? [
-      { id: crypto.randomUUID(), texto: "", descripcion: "" },
-      { id: crypto.randomUUID(), texto: "", descripcion: "" },
-      { id: crypto.randomUUID(), texto: "", descripcion: "" },
-      { id: crypto.randomUUID(), texto: "", descripcion: "" },
-      { id: crypto.randomUUID(), texto: "", descripcion: "" },
-    ]
+    listaEditar?.posiciones ?? Array.from({ length: 5 }, () => ({
+      id: crypto.randomUUID(),
+      texto: "",
+      descripcion: "",
+    }))
   );
   const [error, setError] = useState("");
   const [dragIndex, setDragIndex] = useState<number | null>(null);
@@ -36,10 +34,6 @@ export default function TopModal({ listaEditar, onGuardar, onCerrar }: TopModalP
     setPosiciones(nuevas);
   };
 
-  const handleDragStart = (index: number) => {
-    setDragIndex(index);
-  };
-
   const handleDragOver = (e: React.DragEvent, index: number) => {
     e.preventDefault();
     dragSobre.current = index;
@@ -56,7 +50,7 @@ export default function TopModal({ listaEditar, onGuardar, onCerrar }: TopModalP
     dragSobre.current = null;
   };
 
-  const handleGuardar = () => {
+  const guardar = () => {
     if (titulo.trim() === "") {
       setError("El título es obligatorio");
       return;
@@ -113,7 +107,7 @@ export default function TopModal({ listaEditar, onGuardar, onCerrar }: TopModalP
               <div
                 key={posicion.id}
                 draggable
-                onDragStart={() => handleDragStart(index)}
+                onDragStart={() => setDragIndex(index)}
                 onDragOver={(e) => handleDragOver(e, index)}
                 onDrop={handleDrop}
                 className={`flex gap-2 items-start p-2 rounded-lg border border-gray-200 dark:border-[#2a3555] bg-gray-50 dark:bg-[#0f1629]/50 ${dragIndex === index ? "opacity-40" : ""}`}
@@ -156,7 +150,7 @@ export default function TopModal({ listaEditar, onGuardar, onCerrar }: TopModalP
               Cancelar
             </button>
             <button
-              onClick={handleGuardar}
+              onClick={guardar}
               className="flex-1 px-4 py-2 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-medium hover:opacity-90 cursor-pointer"
             >
               {listaEditar ? "Guardar cambios" : "+ Crear Lista"}

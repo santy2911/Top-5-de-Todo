@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ListProvider } from "./context/ListProvider";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
+import "./App.css";
 
 export default function App() {
   return (
